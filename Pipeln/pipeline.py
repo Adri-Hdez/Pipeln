@@ -3,4 +3,4 @@ class Pipeline:
       pass
   
   def build():
-    print('First pre-release!')
+    print('Testing second pre-release!')
