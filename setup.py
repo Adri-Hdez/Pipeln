@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
         long_description_content_type='text/markdown',
         name='pipeln',
         packages=find_packages(include=['Pipeln']),
-        version='0.0.2',
+        version='0.1.0',
         description='A package to create a custom pipeline',
         author='Adrián H.S',
         author_email='adrihs.dev@gmail.com',
