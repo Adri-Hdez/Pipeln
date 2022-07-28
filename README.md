@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/Adri-Hdez/Pipeln/blob/main/doc/static/img/pipeln_logo_x2.png" alt="logo" width="80%" /></p>
+<p align="center"><img src="https://github.com/Adri-Hdez/Pipeln/blob/main/docs/static/img/Pipeln.png" alt="logo" width="80%" /></p>
 
 <p align="center">
  <i>A package to create a custom pipeline</i>
