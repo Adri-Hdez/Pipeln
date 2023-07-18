@@ -1,0 +1,9 @@
+include *.md
+include *.txt
+include *.ini
+include setup.*
+include MANIFEST.in
+
+graft Pipeln
+
+global-exclude *~
