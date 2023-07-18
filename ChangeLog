@@ -1,0 +1,14 @@
+Version 0.2.0 2023-07-18
+
+* Deprecations and Removals
+  - Moved auxiliar_tests_methods into tests.features to flag it as additional methods.
+
+* Features
+  - Integration of a changelog file to record all changes.
+  - Pipeln is now compatible with Python 3.11.x and lower versions.
+  - Now with Pipeln, you can execute customized pipelines and assign an order of execution.
+  - Error handler for handling failures during pipeline execution without stopping the entire process.
+  - Creation of methods to access class attributes.
+  - Creation of unit tests to test various methods of the class.
+  - Generation of the necessary documentation for using Pipeln version 0.2.0.
+  - Integration of an authors and version file.
