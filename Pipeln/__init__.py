@@ -1,8 +1,6 @@
 # Custom Pipeline Creator (Pipeln)
 #
-# Copyright (C) 2001-2023 Pipeln Project
 # Authors: Adrián Hernández S. <adrihs.dev@gmail.com>
-#
 # For license information, see LICENSE
 
 import os
