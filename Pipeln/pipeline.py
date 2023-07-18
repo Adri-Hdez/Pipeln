@@ -1,59 +1,121 @@
+from typing import final
 import logging
+import time
 
 class Pipeline:
-  '''
+  """
   Class for the creation of a custom pipeline, 
-  which will sequentially execute the methods passed to the constructor. 
-  In addition, it contains a boolean handler to alter the pipeline in the tests.
+  which will sequentially execute the methods passed to the constructor.
   
-  :param methods: It is a list of tuples of maximum size 3, which contains the methods for pipeline creation.
-  :type methods: list
+  :param methods: Is a collection of objects that reference the names of the methods to be executed. It allows us to define the sequence of method calls in the pipeline.
+  :type methods: list[object]
+
+  :param params: Is a collection of tuples that store the parameters for each method. Each tuple corresponds to a method in the method list and contains the necessary parameters required for its execution.
+  :type params: list[tuple]
+
+  :param orders: Is a collection of integers that assign a specific execution order to the methods in the pipeline. The methods are executed based on the order specified in this list, allowing for a customized execution flow.
+  :type orders: list[int]
   
   :param debug: Pipeline methods info.
   :type debug: bool
-  '''
+  """
+
+  def __init__(self, methods: list[object] = None, params: list[tuple] = None, orders: list[int] = None, debug: bool = False) -> None:
+    self._methods = methods
+    self._params = params
+    self._orders = orders
+    self._debug = debug
+
+    self._stacks = [] # combination of methods and params
   
-  def __init__(self, methods=None, debug=False):
-    self.__methods = methods
-    self.__debug = debug
+  # ###########################################################################
+  # #                              CLASS GETTERS                              #
+  # ###########################################################################
+
+  @property
+  def get_methods(self) -> list:
+    """Method to access the pipeline methods.
+
+    Returns:
+        list: List with the names of the methods to be executed in the pipeline.
+    """
+    return [method.__name__ for method in self._methods]
   
-  def build(self, returnable=False):
-    '''
-    Main method of the class, which builds and executes the user-generated pipeline.
-    '''
+  @property
+  def get_params(self) -> list:
+    """Method to access the pipeline params.
+
+    Returns:
+        list: List with the parameters of each of the methods to be executed in the pipeline.
+    """
+    return self._params
+  
+  @property
+  def get_orders(self) -> list:
+    """Method to access the pipeline orders.
+
+    Returns:
+        list: List with the execution order of the pipeline.
+    """
+    return self._orders
+  
+  # ############################################################################
+  # #                               MAIN METHODS                               #
+  # ############################################################################
+
+  @final
+  def create(self) -> None:
+    """Method for creating and initializing the pipeline.
+    """
     
     # -------------------- Variables needed & firsts conditions --------------------
-    if self.__debug: logging.basicConfig(level=logging.DEBUG, format='%(levelname)8s | %(message)s')
+    if self._debug: logging.basicConfig(level=logging.DEBUG, format='%(levelname)8s | %(message)s')
     
     # ----------------------------- Main functionality -----------------------------
-    if self.__methods == None: self.info()
-    else:
-      for methods in self.__methods:
-        try:
-          run, method, arguments = methods
-        except ValueError:
-          run, method = methods
-          
-        try:
-          if run:
-            try:
-              method(*arguments)
-            except UnboundLocalError:
-              method()
-            except:
-              method(arguments)
-          else:
-            logging.debug('The' + str(method) + 'station will not run this time.')
-        except TypeError:
-          logging.error('Be careful with the order of the parameters! The correct order is as follows: (Handler, Method, Parameter/s) or (Handler, Method). Thank you and sorry for the inconvenience!')
-          return
+    # Check if nulls & variables lenght
+    if (self._methods or self._params or self._orders) is None:
+      raise ValueError("Innapropiate argument value, check if there is any None object.")
+    if len(self._methods) != len(self._orders) != len(self._params):
+      raise ValueError("Inappropiate argument value, check parameters length. There is a missing value.")
     
-    if returnable: print('Sorry! This part is currently under development.')
+    # Check argument values
+    if not all(isinstance(value, object) for value in self._methods): 
+      raise ValueError("Inappropiate methods argument value.")
+    if not all(isinstance(value, tuple) for value in self._params): 
+      raise ValueError("Inappropiate params argument value.")
+    if  not all(isinstance(value, int) for value in self._orders): 
+      raise ValueError("Inappropiate order argument value.")
+
+    # Create functions stack
+    for func, parms in zip(self._methods, self._params):
+      combination = (func, parms)
+      self._stacks.append(combination)
   
-  def info(self, lang='en'):
-    if lang == 'en':
-      logging.info('Welcome to the Pipeln package, here is some information on how it works.')
-      print('At the moment Pipeline has 1 main methods, the build method.\n',
-            'Within the build method you will be able to run a sequence of methods and change its execution through the handler.\n')
-      print('Thank you very much for using Pipeln in your projects, any feedback is helpful!')
-      logging.info('If you want to read this in another language you can change it from the parameters -> lang="en".')
+
+  def run(self) -> None:
+    """Method for sorting and executing the custom pipeline.
+    """
+
+    # -------------------- Variables needed & firsts conditions --------------------
+    start_time = time.time()
+    methods = self._stacks
+    orders = self._orders
+
+    # ----------------------------- Main functionality -----------------------------
+    if self._debug: logging.debug('***********************************')
+    if self._debug: logging.debug('        > Starting pipeline        ')
+    if self._debug: logging.debug('')
+
+    ordered_methods = [x for _, x in sorted(zip(orders, methods))]
+
+    for func, params in ordered_methods:
+      try:
+        func(*params)
+        if self._debug: logging.debug(f'EXEC: Method \033[94m{str(func.__name__)}\033[0m executed successfully.')
+      except TypeError:
+        logging.error(f'ERROR: There is an error in \033[91m{str(func.__name__)}\033[0m method. Inappropiate argument type.')
+
+    finish_time = time.time() - start_time
+    if self._debug: logging.debug('')
+    if self._debug: logging.debug(f'     Pipeline finished in {round(finish_time, 1)}s     ')
+    if self._debug: logging.debug('***********************************')
