@@ -77,10 +77,6 @@ class Pipeline:
       raise ValueError("Innapropiate argument value, check if there is any None object.")
     if len(self._methods) != len(self._orders) != len(self._params):
       raise ValueError("Inappropiate argument value, check parameters length. There is a missing value.")
-    
-    for value in self._params:
-      print('aaaaaa')
-      print(type(value))
 
     # Check argument values
     if not all(isinstance(value, object) for value in self._methods): 
