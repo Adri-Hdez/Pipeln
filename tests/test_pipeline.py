@@ -21,7 +21,7 @@ class Testing(unittest.TestCase):
   def test_pipeline_get_params(self):
     obj = Pipeline(methods=[add, sub, cap], params=[(2, 4), (1, 2), ('spain',)], orders=[3, 1, 2])
     params = obj.get_params
-    print(type(params[2]))
+
     self.assertEqual(params, [(2, 4), (1, 2), ('spain',)])
   
   def test_pipeline_get_orders(self):
@@ -35,9 +35,9 @@ class Testing(unittest.TestCase):
     obj.create()
     
     self.assertIsNotNone(obj) # This method doesn't returns
-  
+
   def test_pipeline_execution(self):
-    obj = Pipeline(methods=[add, sub, cap], params=[(2, 4), (1, 2), ('spain',)], orders=[3, 1, 2])
+    obj = Pipeline(methods=[add, sub, cap], params=[{'a': 2, 'b': 4}, (1, 2), ('spain',)], orders=[1, 2, 3])
     obj.create()
     obj.run()
     

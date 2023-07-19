@@ -1,4 +1,4 @@
-from typing import final
+from typing import final, Union
 import logging
 import time
 
@@ -20,7 +20,7 @@ class Pipeline:
   :type debug: bool
   """
 
-  def __init__(self, methods: list[object] = None, params: list[tuple] = None, orders: list[int] = None, debug: bool = False) -> None:
+  def __init__(self, methods: list[object] = None, params: list[Union[tuple, dict]] = None, orders: list[int] = None, debug: bool = False) -> None:
     self._methods = methods
     self._params = params
     self._orders = orders
@@ -78,10 +78,14 @@ class Pipeline:
     if len(self._methods) != len(self._orders) != len(self._params):
       raise ValueError("Inappropiate argument value, check parameters length. There is a missing value.")
     
+    for value in self._params:
+      print('aaaaaa')
+      print(type(value))
+
     # Check argument values
     if not all(isinstance(value, object) for value in self._methods): 
       raise ValueError("Inappropiate methods argument value.")
-    if not all(isinstance(value, tuple) for value in self._params): 
+    if not all(isinstance(value, (tuple, dict)) for value in self._params): 
       raise ValueError("Inappropiate params argument value.")
     if  not all(isinstance(value, int) for value in self._orders): 
       raise ValueError("Inappropiate order argument value.")
@@ -110,8 +114,12 @@ class Pipeline:
 
     for func, params in ordered_methods:
       try:
-        func(*params)
-        if self._debug: logging.debug(f'EXEC: Method \033[94m{str(func.__name__)}\033[0m executed successfully.')
+        if type(params) is tuple:
+          func(*params)
+          if self._debug: logging.debug(f'EXEC: Method \033[94m{str(func.__name__)}\033[0m executed successfully.')
+        else:
+          func(**params)
+          if self._debug: logging.debug(f'EXEC: Method \033[94m{str(func.__name__)}\033[0m executed successfully.')
       except TypeError:
         logging.error(f'ERROR: There is an error in \033[91m{str(func.__name__)}\033[0m method. Inappropiate argument type.')
 
