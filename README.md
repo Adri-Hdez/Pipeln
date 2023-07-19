@@ -18,7 +18,7 @@
 Pipeln is a Python package aimed at creating a pipeline or a sequence of custom methods execution. The goal is to enable the creation of different procedural sequences that can be encapsulated within a method, allowing for the selection of order, return values, etc. Although some functionalities are still pending implementation, for a better overview, please refer to the objectives calendar.
 </p>
 
-<p align="center">📃​ <b>Last version 0.2.0-alpha out now!</b> 📃​</p>
+<p align="center">📃​ <b>Last version 0.2.11-alpha out now!</b> 📃​</p>
 
 # 💬 Contribution & Questions
 
