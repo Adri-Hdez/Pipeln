@@ -47,7 +47,7 @@ To use the library properly, we follow these steps:
 from Pipeln.pipeline import Pipeline
 from features.auxiliar_test_methods import add, sub, cap
 
-obj = Pipeline(methods=[add, sub, cap], params=[(2, 4), ('1', 2), ('spain',)], orders=[3, 1, 2], debug=True)
+obj = Pipeline(methods=[add, sub, cap], params=[{'a': 2, 'b': 4}, ('1', 2), ('spain',)], orders=[3, 1, 2], debug=True)
 obj.create()
 obj.run()
 ```
