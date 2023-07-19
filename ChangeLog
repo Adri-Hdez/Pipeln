@@ -1,3 +1,9 @@
+Version 0.2.1 2023-07-19
+
+* Features
+  - Improvement in the creation of custom pipelines, now allowing you to send parameters in dictionary format to execute methods with specific parameters.
+  - Improved README.md to showcase the new execution functionality.
+
 Version 0.2.0 2023-07-18
 
 * Deprecations and Removals
