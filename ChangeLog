@@ -1,3 +1,8 @@
+Version 0.2.11 2023-07-19
+
+* Bug and fixes
+  - Resolved an issue displaying development-related information on the screen.
+
 Version 0.2.1 2023-07-19
 
 * Features
